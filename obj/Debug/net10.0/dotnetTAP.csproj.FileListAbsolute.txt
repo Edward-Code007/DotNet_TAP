@@ -12,3 +12,4 @@
 /home/Edward/Proyectos/dotnetTAP/obj/Debug/net10.0/dotnetTAP.pdb
 /home/Edward/Proyectos/dotnetTAP/obj/Debug/net10.0/dotnetTAP.genruntimeconfig.cache
 /home/Edward/Proyectos/dotnetTAP/obj/Debug/net10.0/ref/dotnetTAP.dll
+/home/Edward/Proyectos/dotnetTAP/obj/Debug/net10.0/dotnetTAP.sourcelink.json

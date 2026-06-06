@@ -2,7 +2,7 @@ namespace CancellationTokenExample;
 
 public class CancellationToken
 {
-    public static void CancelTask()
+    public static void Execute()
     {
         CancellationTokenSource sourceToken = new CancellationTokenSource();
         sourceToken.CancelAfter(20);//Cambiar Valor Altera el Resultado del Task

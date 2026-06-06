@@ -3,13 +3,14 @@ namespace TaskCompletionExaple
     public class TaskCompletion
     {
 
-       public static TaskCompletionSource<bool> TaskDeclaration()
+       private static TaskCompletionSource<bool> TaskDeclaration()
         {
             var tcs = new TaskCompletionSource<bool>();
             Task task = tcs.Task;
 
             task.ContinueWith(completed =>
             {
+                
                 if (completed.IsCompletedSuccessfully)
                 {
                     Console.WriteLine("Se Completo Exitosamente");
@@ -22,11 +23,9 @@ namespace TaskCompletionExaple
             });
             return tcs;
         }
-        public static void Run()
+        public static void Execute()
         {
             var tcs = TaskDeclaration();
-
-
             while (true)
             {
             Console.WriteLine("1 para completar la tarea\n 2 para Cancelar");
