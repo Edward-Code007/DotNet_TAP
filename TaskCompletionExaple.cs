@@ -23,7 +23,7 @@ namespace TaskCompletionExaple
             });
             return tcs;
         }
-        public static void Execute()
+        public static void Run()
         {
             var tcs = TaskDeclaration();
             while (true)

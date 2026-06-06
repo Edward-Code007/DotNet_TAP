@@ -1,6 +1,6 @@
 ﻿
 //PutHereExample
-//ParallelExample.For.ParallelForEach.Execute();
+ParallelExample.For.ParallelForEach.Run();
 
 
 Console.ReadLine();

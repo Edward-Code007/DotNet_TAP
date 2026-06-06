@@ -1,21 +1,71 @@
+using System.Collections.Concurrent;
+using System.ComponentModel;
 using Microsoft.VisualBasic;
 
 namespace ParallelExample.For;
 
 public class ParallelForEach
 {
-    public static void Execute()
+    private static void ExecuteFor(ConcurrentBag<string> bag)
     {
-
         Random rng = new Random();
         int[] numeros = Enumerable.Range(0, 100)
                                   .Select(_ => rng.Next(0, 101))
                                   .ToArray();
         Parallel.ForEachAsync(numeros, (number, canceToken) =>
         {
-            Console.WriteLine($"Completed From Thread {Thread.CurrentThread.ManagedThreadId}: {number} * 2 equals ={number*2}");
-           
+            var cadena = $"Completed From Thread {Thread.CurrentThread.ManagedThreadId}: {number} * 2 equals ={number * 2}";
+            bag.Add(cadena);
             return ValueTask.CompletedTask;
-        }); //Implementar For Paralelo
+        });
+    }
+    private static Task TryReadBag(ConcurrentBag<string> concurrentBag, CancellationToken cancellationToken)
+    {
+
+        int errCount = 0;
+        object _lock = new object();
+        while (errCount < 10)
+        {
+            if (cancellationToken.IsCancellationRequested) return Task.FromCanceled(cancellationToken);
+            
+            Task.Run(() =>
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                bool isTaken = concurrentBag.TryTake(out string? cadena);
+                if (isTaken) Console.WriteLine(cadena);
+                lock (_lock)
+                {
+                    errCount++;
+                }
+
+            },
+            cancellationToken);
+        }
+        Console.WriteLine("Threshold Alcanzado");
+        return Task.CompletedTask;
+    }
+    public static void Run()
+    {
+        var concurrentBag = new ConcurrentBag<string>();
+
+        ExecuteFor(concurrentBag);
+
+        CancellationTokenSource source = new CancellationTokenSource();
+        source.CancelAfter(2);
+
+        var result = TryReadBag(concurrentBag, source.Token);
+
+        result.ContinueWith(completed =>
+        {
+             if (completed.IsCanceled)
+            {
+                Console.WriteLine("Tarea Cancelada");
+            }
+            else if (completed.IsCompletedSuccessfully)
+            {
+                Console.WriteLine("Tarea Completada con Exito");
+            }
+            
+        });
     }
 }
