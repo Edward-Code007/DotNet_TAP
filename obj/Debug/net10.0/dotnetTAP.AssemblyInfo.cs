@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("dotnetTAP")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4ad0472e61f435558388928be69f23f5dcc61009")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f10e939ac57da3ec85a7870ae106076740efe45c")]
 [assembly: System.Reflection.AssemblyProductAttribute("dotnetTAP")]
 [assembly: System.Reflection.AssemblyTitleAttribute("dotnetTAP")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -51,7 +51,7 @@ public class ParallelForEach
         ExecuteFor(concurrentBag);
 
         CancellationTokenSource source = new CancellationTokenSource();
-        source.CancelAfter(2);
+        source.CancelAfter(2);//Controlar si se Cancela antes de q las tareas Terminen
 
         var result = TryReadBag(concurrentBag, source.Token);
 
