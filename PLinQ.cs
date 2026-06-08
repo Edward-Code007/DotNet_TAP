@@ -27,7 +27,7 @@ public class Plinq
     private static async Task<int> ExpensiveTaskEmu(int number)
     {
 
-        await Task.Delay(2000);
+        await Task.Delay(200);
         return number + number;
     }
 }
