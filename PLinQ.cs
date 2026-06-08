@@ -14,12 +14,13 @@ public class Plinq
                                                 .AsParallel()
                                                 .AsUnordered()
                                                 .WithDegreeOfParallelism(6)               
-                           select ExpensiveTaskEmu(number);
+                           select number;
         var stopwatch = new Stopwatch();
         stopwatch.Start();
         parallelLinq.ForAll( async number =>
         {
-            Console.WriteLine($"From Thread {Thread.CurrentThread.ManagedThreadId} result: {await number}");
+           var result = await ExpensiveTaskEmu(number);
+            Console.WriteLine($"From Thread {Thread.CurrentThread.ManagedThreadId} result: {result}");
         });
         stopwatch.Stop();
         Console.WriteLine($"Elapsed: {stopwatch.Elapsed}");
