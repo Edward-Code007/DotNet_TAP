@@ -1,33 +1,36 @@
 using System.Diagnostics;
-using System.Globalization;
 
-namespace PLinQExample;
+namespace PLinqExample;
 
 public class Plinq
 {
-
-    public static async Task Run()
+    public static void Run()
     {
-        var arreglo = Enumerable.Range(0, 10000);
+        var numbers = Enumerable.Range(0, 50); // menos items, más claro
 
-        var parallelLinq = from number in arreglo
-                                                .AsParallel()
-                                                .AsUnordered()
-                                                .WithDegreeOfParallelism(6)               
-                           select ExpensiveTaskEmu(number);
-        var stopwatch = new Stopwatch();
-        stopwatch.Start();
-        parallelLinq.ForAll( async number =>
-        {
-            Console.WriteLine($"From Thread {Thread.CurrentThread.ManagedThreadId} result: {await number}");
-        });
+        var stopwatch = Stopwatch.StartNew();
+
+        var tasks = numbers
+            .AsParallel()
+            .AsUnordered()
+            .WithDegreeOfParallelism(6)
+            .Select(n => ExpensiveTaskEmu(n))
+            .ToList();
+
+
+
         stopwatch.Stop();
-        Console.WriteLine($"Elapsed: {stopwatch.Elapsed}");
-    }
-    private static async Task<int> ExpensiveTaskEmu(int number)
-    {
 
-        await Task.Delay(200);
+        foreach (var result in tasks)
+            Console.WriteLine($"Result: {result}");
+
+        Console.WriteLine($"Elapsed: {stopwatch.Elapsed}");
+
+    }
+
+    private static int ExpensiveTaskEmu(int number)
+    {
+        Thread.Sleep(200);
         return number + number;
     }
 }
