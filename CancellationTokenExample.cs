@@ -1,6 +1,6 @@
 namespace CancellationTokenExample;
 
-public class CancellationToken
+public class CancellationTokenDemo
 {
     public static void Run()
     {

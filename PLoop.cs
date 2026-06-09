@@ -6,17 +6,16 @@ namespace ParallelExample.For;
 
 public class ParallelForEach
 {
-    private static void ExecuteFor(ConcurrentBag<string> bag)
+    private static async Task ExecuteFor(ConcurrentBag<string> bag)
     {
         Random rng = new Random();
         int[] numeros = Enumerable.Range(0, 100)
                                   .Select(_ => rng.Next(0, 101))
                                   .ToArray();
-        Parallel.ForEachAsync(numeros, (number, canceToken) =>
+       Parallel.ForEach(numeros, (number, canceToken) =>
         {
             var cadena = $"Completed From Thread {Thread.CurrentThread.ManagedThreadId}: {number} * 2 equals ={number * 2}";
             bag.Add(cadena);
-            return ValueTask.CompletedTask;
         });
     }
     private static Task TryReadBag(ConcurrentBag<string> concurrentBag, CancellationToken cancellationToken)
@@ -44,11 +43,11 @@ public class ParallelForEach
         Console.WriteLine("Threshold Alcanzado");
         return Task.CompletedTask;
     }
-    public static void Run()
+    public static async Task Run()
     {
         var concurrentBag = new ConcurrentBag<string>();
 
-        ExecuteFor(concurrentBag);
+       await ExecuteFor(concurrentBag);
 
         CancellationTokenSource source = new CancellationTokenSource();
         source.CancelAfter(2);//Controlar si se Cancela antes de q las tareas Terminen

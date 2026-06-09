@@ -30,8 +30,8 @@ namespace TaskCompletionExaple
             {
             Console.WriteLine("1 para completar la tarea\n 2 para Cancelar");
                 var opt = Console.ReadLine();
-                if (opt == "1") { tcs.SetResult(true); }
-                if (opt == "2") { tcs.SetCanceled(); }
+                if (opt == "1") { tcs.SetResult(true); break; }
+                if (opt == "2") { tcs.SetCanceled(); break; }
             }
         }
 
